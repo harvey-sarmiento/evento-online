@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evento Online - Asesorías Exclusivas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .header .subtitle {
+            font-size: 1.3rem;
+            color: #666;
+            font-weight: 500;
+            margin-bottom: 30px;
+        }
+
+        .progress-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .progress-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .progress-container {
+            background: #f0f0f0;
+            border-radius: 25px;
+            height: 40px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            position: relative;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+            border-radius: 25px;
+            transition: width 1s ease-in-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .progress-text {
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        .packages {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .package {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .package::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .package:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .package.popular {
+            transform: scale(1.05);
+            border: 3px solid #667eea;
+        }
+
+        .package.popular::after {
+            content: '¡MÁS POPULAR!';
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 8px 40px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            transform: rotate(45deg);
+            letter-spacing: 1px;
+        }
+
+        .package h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .package .stickers {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .package .price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #2d3748;
+            margin-bottom: 20px;
+        }
+
+        .package .original-price {
+            font-size: 1.2rem;
+            color: #999;
+            text-decoration: line-through;
+            margin-bottom: 15px;
+        }
+
+        .package .savings {
+            background: linear-gradient(45deg, #10ac84, #00d2d3);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            display: inline-block;
+        }
+
+        .buy-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            width: 100%;
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .buy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .buy-btn:active {
+            transform: translateY(0);
+        }
+
+        .features {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 40px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .features h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .feature {
+            padding: 20px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            text-align: center;
+            transform: perspective(1000px) rotateY(0deg);
+            transition: transform 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: perspective(1000px) rotateY(10deg) scale(1.05);
+        }
+
+        .feature h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .urgency {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: 0 15px 35px rgba(255, 107, 107, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .urgency h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .timer {
+            font-size: 2rem;
+            font-weight: 800;
+            margin: 15px 0;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .packages {
+                grid-template-columns: 1fr;
+            }
+            
+            .package {
+                padding: 30px 20px;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-elements::before,
+        .floating-elements::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-elements::before {
+            width: 200px;
+            height: 200px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-elements::after {
+            width: 150px;
+            height: 150px;
+            bottom: 20%;
+            right: 10%;
+            animation-delay: 3s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Evento Online</h1>
+            <p class="subtitle">Acompañamiento Exclusivo de Asesorías - ¡Oportunidad Única!</p>
+        </div>
+
+        <div class="urgency">
+            <h3>⏰ ¡TIEMPO LIMITADO!</h3>
+            <div class="timer" id="timer">¡Solo quedan pocas oportunidades!</div>
+            <p>No dejes pasar esta oportunidad única de transformar tu negocio</p>
+        </div>
+
+        <div class="progress-section">
+            <h2 class="progress-title">🔥 Estado del Evento</h2>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="progress-text" id="progressText">Cargando...</div>
+        </div>
+
+        <div class="packages">
+            <div class="package">
+                <h3>Paquete Básico</h3>
+                <div class="stickers">3</div>
+                <p style="font-size: 1.1rem; margin-bottom: 15px;">Stickers</p>
+                <div class="original-price">$18,000</div>
+                <div class="price">$15,000</div>
+                <div class="savings">¡Ahorras $3,000!</div>
+                <button class="buy-btn" onclick="buyPackage('3stickers')">
+                    Obtener Mis 3 Stickers 🎯
+                </button>
+            </div>
+
+            <div class="package popular">
+                <h3>Paquete Estrella</h3>
+                <div class="stickers">5</div>
+                <p style="font-size: 1.1rem; margin-bottom: 15px;">Stickers</p>
+                <div class="original-price">$30,000</div>
+                <div class="price">$25,000</div>
+                <div class="savings">¡Ahorras $5,000!</div>
+                <button class="buy-btn" onclick="buyPackage('5stickers')">
+                    Obtener Mis 5 Stickers 🌟
+                </button>
+            </div>
+
+            <div class="package">
+                <h3>Paquete Premium</h3>
+                <div class="stickers">10</div>
+                <p style="font-size: 1.1rem; margin-bottom: 15px;">Stickers</p>
+                <div class="original-price">$55,000</div>
+                <div class="price">$45,000</div>
+                <div class="savings">¡Ahorras $10,000!</div>
+                <button class="buy-btn" onclick="buyPackage('10stickers')">
+                    Obtener Mis 10 Stickers 💎
+                </button>
+            </div>
+        </div>
+
+        <div class="features">
+            <h2>🎁 Lo Que Obtienes</h2>
+            <div class="feature-grid">
+                <div class="feature">
+                    <h3>🎯 Asignación Automática</h3>
+                    <p>Tus stickers se asignan automáticamente al completar el pago</p>
+                </div>
+                <div class="feature">
+                    <h3>🏆 Premios Sorpresa</h3>
+                    <p>10 stickers adicionales con premios especiales al azar</p>
+                </div>
+                <div class="feature">
+                    <h3>💼 Asesoría Personalizada</h3>
+                    <p>Acompañamiento online exclusivo para hacer crecer tu negocio</p>
+                </div>
+                <div class="feature">
+                    <h3>🔒 100% Seguro</h3>
+                    <p>Proceso de pago completamente seguro y verificado</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simulación del progreso de ventas
+        const progressOptions = [15, 23, 31, 42, 56, 67, 74, 81, 89, 94];
+        let currentProgress = progressOptions[Math.floor(Math.random() * progressOptions.length)];
+
+        function updateProgress() {
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            
+            progressBar.style.width = currentProgress + '%';
+            progressText.textContent = `${currentProgress}% VENDIDO - ¡Solo quedan ${100 - currentProgress}% disponibles!`;
+            
+            // Simulación de ventas en tiempo real
+            setInterval(() => {
+                if (currentProgress < 95 && Math.random() < 0.3) {
+                    currentProgress += Math.floor(Math.random() * 3) + 1;
+                    if (currentProgress > 95) currentProgress = 95;
+                    
+                    progressBar.style.width = currentProgress + '%';
+                    progressText.textContent = `${currentProgress}% VENDIDO - ¡Solo quedan ${100 - currentProgress}% disponibles!`;
+                }
+            }, 15000); // Actualiza cada 15 segundos
+        }
+
+        function buyPackage(packageType) {
+            const urls = {
+                '3stickers': 'https://checkout.bold.co/payment/LNK_9XBVZ3OH66',
+                '5stickers': 'https://checkout.bold.co/payment/LNK_CYM9EHZD8X',
+                '10stickers': 'https://checkout.bold.co/payment/LNK_NHN0UOLXPM'
+            };
+            
+            const packages = {
+                '3stickers': '3 Stickers ($15,000)',
+                '5stickers': '5 Stickers ($25,000)', 
+                '10stickers': '10 Stickers ($45,000)'
+            };
+            
+            // Tu número de WhatsApp
+            const whatsappNumber = '573015619137';
+            
+            // Efecto visual antes de redirigir
+            const button = event.target;
+            button.style.transform = 'scale(0.95)';
+            button.innerHTML = '🚀 Redirigiendo al pago...';
+            
+            setTimeout(() => {
+                // Abrir página de pago
+                window.open(urls[packageType], '_blank');
+                
+                // Preparar mensaje de WhatsApp
+                const message = `🎯 ¡Hola! Acabo de realizar el pago del Evento Online
+                
+📦 Paquete: ${packages[packageType]}
+💳 Plataforma: Bold Checkout
+
+🧾 Te envío el comprobante de pago para que me asignes mis stickers automáticamente.
+
+¡Gracias! 🚀`;
+
+                const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+                
+                // Mostrar modal con instrucciones
+                showPaymentModal(whatsappUrl, packages[packageType]);
+                
+                // Restaurar botón
+                button.style.transform = 'scale(1)';
+                button.innerHTML = button.innerHTML.replace('🚀 Redirigiendo al pago...', 
+                    packageType === '3stickers' ? 'Obtener Mis 3 Stickers 🎯' :
+                    packageType === '5stickers' ? 'Obtener Mis 5 Stickers 🌟' :
+                    'Obtener Mis 10 Stickers 💎');
+            }, 1000);
+        }
+
+        // Contador regresivo simulado
+        function updateTimer() {
+            const timer = document.getElementById('timer');
+            const messages = [
+                '⚡ ¡Últimas oportunidades disponibles!',
+                '🔥 ¡La demanda está siendo increíble!',
+                '⏰ ¡No dejes pasar esta oportunidad!',
+                '🚨 ¡Lugares limitados disponibles!'
+            ];
+            
+            let messageIndex = 0;
+            setInterval(() => {
+                timer.textContent = messages[messageIndex];
+                messageIndex = (messageIndex + 1) % messages.length;
+            }, 3000);
+        }
+
+        // Inicializar todo cuando carga la página
+        window.addEventListener('load', () => {
+            updateProgress();
+            updateTimer();
+        });
+
+        // Efecto de particles (opcional)
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.style.cssText = `
+                position: fixed;
+                width: 4px;
+                height: 4px;
+                background: rgba(102, 126, 234, 0.6);
+                border-radius: 50%;
+                pointer-events: none;
+                left: ${Math.random() * 100}vw;
+                top: 100vh;
+                z-index: -1;
+                animation: particleUp 4s linear forwards;
+            `;
+            
+            document.body.appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, 4000);
+        }
+
+        // Agregar estilos para la animación de partículas
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes particleUp {
+                to {
+                    transform: translateY(-100vh) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Crear partículas ocasionalmente
+        setInterval(createParticle, 2000);
+
+        // Modal para instrucciones de pago
+        function showPaymentModal(whatsappUrl, packageInfo) {
+            // Crear modal
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.8);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+                animation: fadeIn 0.3s ease;
+            `;
+
+            modal.innerHTML = `
+                <div style="
+                    background: white;
+                    padding: 40px;
+                    border-radius: 20px;
+                    text-align: center;
+                    max-width: 500px;
+                    margin: 20px;
+                    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+                ">
+                    <h2 style="color: #667eea; margin-bottom: 20px; font-size: 1.8rem;">
+                        🎉 ¡Pago Iniciado!
+                    </h2>
+                    <p style="margin-bottom: 15px; font-size: 1.1rem; color: #333;">
+                        <strong>Paquete seleccionado:</strong><br>
+                        ${packageInfo}
+                    </p>
+                    <p style="margin-bottom: 25px; color: #666; line-height: 1.5;">
+                        1️⃣ Completa tu pago en la ventana que se abrió<br>
+                        2️⃣ Luego haz clic en el botón de abajo para enviarnos tu comprobante
+                    </p>
+                    <button onclick="openWhatsApp('${whatsappUrl}')" style="
+                        background: linear-gradient(45deg, #25D366, #128C7E);
+                        color: white;
+                        border: none;
+                        padding: 15px 30px;
+                        border-radius: 50px;
+                        font-size: 1.1rem;
+                        font-weight: 700;
+                        cursor: pointer;
+                        margin: 10px;
+                        transition: all 0.3s ease;
+                    ">
+                        📱 Enviar Comprobante por WhatsApp
+                    </button>
+                    <br>
+                    <button onclick="closeModal()" style="
+                        background: #f0f0f0;
+                        color: #666;
+                        border: none;
+                        padding: 10px 20px;
+                        border-radius: 25px;
+                        cursor: pointer;
+                        margin-top: 15px;
+                    ">
+                        Cerrar
+                    </button>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+            
+            // Cerrar modal al hacer clic fuera
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+        }
+
+        function openWhatsApp(url) {
+            window.open(url, '_blank');
+            closeModal();
+        }
+
+        function closeModal() {
+            const modal = document.querySelector('div[style*="position: fixed"]');
+            if (modal) {
+                modal.remove();
+            }
+        }
+    </script>
+</body>
+</html>
